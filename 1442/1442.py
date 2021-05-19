@@ -10,6 +10,7 @@ class Solution:
             """
             if x == y:
                 return arr[x]
+                # 这其实是bug 但是好在永远不会运行到这里
             else:
                 if x == 0:
                     if y == 1:
