@@ -7,9 +7,7 @@ from operator import itemgetter
 class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
         # get count
-        counter = Counter()
-        for item in words:
-                counter[item] += 1
+        counter = Counter(words)
         counted = list(counter.items())
         counted.sort(key=itemgetter(0))
         counted.sort(key=itemgetter(1), reverse=True)
