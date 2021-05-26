@@ -1,15 +1,19 @@
 from typing import List
-
+from math import floor
 
 class Solution:
     def minArray(self, numbers: List[int]) -> int:
-        result = numbers[0]
-        for i, x in enumerate(numbers):
-            j = (i+1) % len(numbers)
-            if numbers[i] > numbers[j]:
-                result = numbers[j]
-                break
-        return result
+        left = 0
+        right = len(numbers)-1
+        while left < right:
+            pivot = floor((left + right) // 2)
+            if numbers[pivot] > numbers[right]:
+                left = pivot + 1
+            elif numbers[pivot] < numbers[right]:
+                right = pivot
+            else:
+                right -= 1
+        return numbers[left]
 
 
 x = Solution()
