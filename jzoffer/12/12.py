@@ -18,7 +18,6 @@ class Solution:
         else:
             return False
 
-        p_used = {}
 
         def helper(p, i):
             """
@@ -32,12 +31,11 @@ class Solution:
 
             for a in range(m):
                 for b in range(n):
-                    if ((a, b) not in p_used) or (not p_used[(a, b)]):
-                        if board[a][b] == word[i] and is_connected(p, (a, b)):
-                            p_used[(a, b)] = True
-                            if helper((a,b), i+1):
-                                return True
-                            p_used[(a, b)] = False
+                    if board[a][b] == word[i] and is_connected(p, (a, b)):
+                        board[a][b] = ''
+                        if helper((a,b), i+1):
+                            return True
+                        board[a][b] = word[i]
             return False
         
         return helper(None, 0)
