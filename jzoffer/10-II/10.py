@@ -10,7 +10,7 @@ def f(n: int) -> int:
         return (f(n-1) + f(n-2)) % 1000000007
 
 class Solution:
-    def fib(self, n: int) -> int:
+    def numWays(self, n: int) -> int:
         return f(n)
 
 
