@@ -1,12 +1,18 @@
+import functools
 
 
 class Solution:
     def movingCount(self, m: int, n: int, k: int) -> int:
+        @functools.cache
+        def sum_of_bits(x: int):
+            return sum((int(i) for i in str(x)))
+
+        @functools.cache
         def valid(a: int, b: int):
-            return sum((int(i) for i in str(a))) + sum((int(i) for i in str(b))) <= k
+            return sum_of_bits(a) + sum_of_bits(b) <= k
 
         cache = {}
-        
+
         def dfs(a, b):
             """
             check if (a, b) is reachable
