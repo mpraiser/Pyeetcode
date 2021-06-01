@@ -9,12 +9,7 @@ def max_product(n: int) -> int:
     """
     if n >= 2:
         # the first divide cannot split
-        return max(
-            chain(
-                (i * (n-i) for i in range(1, n//2+1)),
-                (i * max_product(n-i) for i in range(1, n//2+1))
-                )
-            )
+        return max(chain((i * (n-i) for i in range(1, n)), (i * max_product(n-i) for i in range(1, n))))
     else:
         return 0
 
@@ -27,3 +22,5 @@ class Solution:
 x = Solution()
 ans = x.cuttingRope(10)
 print(ans)
+
+print([x.cuttingRope(i) for i in range(2, 59)])
