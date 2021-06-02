@@ -5,12 +5,10 @@ from itertools import accumulate
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
         sums = accumulate(nums)
-        rems = {}
+        rems = {0: -1}  # boundary condition
 
         for i, item in enumerate(sums):
             rem = item % k
-            if i >= 1 and rem == 0:
-                return True
             if rem in rems:
                 if i - rems[rem] >= 2:
                     return True
