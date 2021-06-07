@@ -1,3 +1,4 @@
+import functools
 from typing import List
 
 class Solution:
@@ -9,19 +10,31 @@ class Solution:
 
         # problem converted to: sum(c) == indirect_target
         # c is a sub array
-        nums.sort(reverse=True)
+        @functools.cache
         def helper(i, psum):
-            nonlocal ans
-            if i < len(nums):
-                if psum > indirect_target:
-                    return
-                helper(i + 1, psum + nums[i])
-                helper(i + 1, psum)
-            else:
-                if psum == indirect_target:
-                    ans += 1
-        helper(0, 0)
-        return ans
+            """
+            number of first i-th elements whose sum is psum
+            """
+            if i == 0:
+                return 1 if psum == 0 else 0
+            ans = helper(i - 1, psum)
+            if psum >= nums[i-1]:
+                ans += helper(i - 1, psum - nums[i-1])
+            return ans
+            
+        # def helper(i, psum):
+        #     nonlocal ans
+        #     if i < len(nums):
+        #         if psum > indirect_target:
+        #             return
+        #         helper(i + 1, psum + nums[i])
+        #         helper(i + 1, psum)
+        #     else:
+        #         if psum == indirect_target:
+        #             ans += 1
+        # helper(0, 0)
+
+        return helper(len(nums), indirect_target)
         
 
 x = Solution()
