@@ -1,4 +1,5 @@
 from typing import List
+from functools import cache
 
 
 class Solution:
@@ -6,5 +7,5 @@ class Solution:
         return True
 
 
-ans = Solution().stoneGame([1,2,3,4])
+ans = Solution().stoneGame([3,2,10,4])
 print(ans)
