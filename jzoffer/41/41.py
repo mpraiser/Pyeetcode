@@ -1,4 +1,4 @@
-from collections import deque
+import heapq
 
 
 class MedianFinder:
@@ -7,26 +7,25 @@ class MedianFinder:
         """
         initialize your data structure here.
         """
-        self.n = 0
-        self.buffer = []
+        self.smaller = []  # 大顶堆
+        self.bigger = []  # 小顶堆
     
     @property
     def nIsEven(self):
         return self.n % 2 == 0
 
     def addNum(self, num: int) -> None:
-        self.n += 1
-        self.buffer.append(num)
+        # when n == 0, send one element to bigger first
+        if len(self.smaller) == len(self.bigger):
+            heapq.heappush(self.bigger, -heapq.heappushpop(self.smaller, -num))
+        else:
+            heapq.heappush(self.smaller, -heapq.heappushpop(self.bigger, num))
 
     def findMedian(self) -> float:
-        if self.n <= 0:
-            return None
-        self.buffer.sort()
-        if self.nIsEven:
-            return (self.buffer[(self.n-1)//2] + self.buffer[(self.n-1)//2 + 1]) / 2
+        if len(self.smaller) == len(self.bigger):
+            return (- self.smaller[0] + self.bigger[0]) / 2
         else:
-            return self.buffer[(self.n-1)//2]
-        
+            return self.bigger[0]
 
 obj = MedianFinder()
 obj.addNum(1)
