@@ -1,22 +1,26 @@
-from typing import List, Tuple
+from typing import List
 
 
 class Solution:
     def permutation(self, s: str) -> List[str]:
-        
-        def helper(depth) -> List[Tuple[str, List]]:
-            if depth == 1:
-                return [(c, [i]) for i, c in enumerate(s)]
+        result = []
 
-            result = []
+        def helper(s, r):
+            """
+            Args:
+                x: string to be chosen
+                r: choosed string
+            """
+            if s == "":
+                result.append(r)
+            visted = set()
             for i, c in enumerate(s):
-                result += [(c + y[0], [i] + y[1]) for y in helper(depth - 1) if i not in y[1]]
-            return result
+                if c not in visted:
+                    visted.add(c)
+                    helper(s[:i] + s[i+1:], r + c)
 
-        result = set()
-        for item in helper(len(s)):
-            result.add(item[0])
-        return list(result)
+        helper(s, "")
+        return result
 
 
 ans = Solution().permutation("aab")
