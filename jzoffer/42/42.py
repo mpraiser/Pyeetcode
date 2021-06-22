@@ -4,18 +4,13 @@ from functools import cache
 
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        @cache
-        def f(n) -> int:
-            """biggest sum of sub array ends with nums[n-1]"""
-            if n == 1:
-                return nums[0]
+        dp = [nums[0]]
+        for i in range(1, len(nums)):
+            if dp[i-1] <= 0:
+                dp.append(nums[i])
             else:
-                if f(n-1) <= 0:
-                    return nums[n-1]
-                else:
-                    return f(n-1) + nums[n-1]
-
-        return max((f(i) for i in range(1, len(nums)+1)))
+                dp.append(nums[i] + dp[i-1])
+        return max(dp)
 
 ans = Solution().maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
 print(ans)
