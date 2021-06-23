@@ -1,3 +1,6 @@
+from typing import List
+
+
 def digits2int(digits) -> int:
     base = 1
     result = 0
@@ -9,22 +12,30 @@ def digits2int(digits) -> int:
 
 def int2digits(x: int, *, reverse=False) -> List[int]:
     r = [int(i) for i in str(x)]
-    return reversed(r) if reverse else r
+    return list(reversed(r)) if reverse else r
 
 
 class Solution:
     def countDigitOne(self, n: int) -> int:
-        def f(i, j):
-            """[i, j)"""
+        digits = int2digits(n, reverse=True)
+        counter = 0
+        for i, cur in enumerate(digits):
+            # print(counter)
+            # high
+            counter += digits2int(digits[i+1:]) * (10 ** i)
+            # low
+            if cur >= 2:
+                counter += 10 ** i
+            elif cur == 1:
+                counter += digits2int(digits[:i]) + 1
+        return counter
 
-        return f(0, n+1)
 
-
-cases = [0, 5, 11, 13, 20, 100]
+cases = [0, 5, 12, 13, 20, 100]
 
 for case in cases:
     ans = Solution().countDigitOne(case)
     print(ans)
 
-# ans = Solution().countDigitOne(11)
+# ans = Solution().countDigitOne(100)
 # print(ans)
