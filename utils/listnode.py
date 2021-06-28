@@ -14,18 +14,14 @@ class ListNode:
     def parse(values: List):
         if len(values) == 0:
             return None
-        head = ListNode(0, None)
-        node = head
-        last_node = None
+        sentinel = ListNode(0, None)
+        node = sentinel
 
         for n in values:
-            node.val = n
-            if last_node:
-                last_node.next = node
+            node.next = ListNode(n, None)
+            node = node.next
 
-            last_node = node
-            node = ListNode(0, None)
-        return head
+        return sentinel.next
 
     def serialize(self) -> List:
         result = []
