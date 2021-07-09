@@ -1,19 +1,24 @@
 from typing import List
-from itertools import product
-
-
-d2c = {
-    '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', 
-    '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
-}
 
 
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
+        # simple version of itertools.product
+        def product(*args: str) -> List[str]:
+            result = ['']
+            for pool in args:
+                result = [x+y for x in result for y in pool]
+            return result
+
+        d2c = {
+            '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', 
+            '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
+        }
+
         if digits == "":
             return []
         pools = (d2c[d] for d in digits)
-        return ["".join(item) for item in product(*pools)]
+        return product(*pools)
 
 
 ans = Solution().letterCombinations("23")
