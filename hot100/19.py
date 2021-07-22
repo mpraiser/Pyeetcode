@@ -4,6 +4,9 @@ from collections import deque
 
 class Solution:
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        """
+        this method takes O(N) space complexity
+        """
         dq = deque()
         node = head
         while node:
