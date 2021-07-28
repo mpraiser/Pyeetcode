@@ -6,35 +6,31 @@ from typing import List, Tuple, Optional
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
         ret = []
-
-        def f(node: TreeNode, last: Optional[TreeNode] = None):
-            """Convert a tree to a graph"""
-            node.child = set()
-            if last:
-                node.child.add(last)
-            if node.left:
-                node.child.add(node.left)
-                f(node.left, node)
-            if node.right:
-                node.child.add(node.right)
-                f(node.right, node)
-
         visited = set()
 
-        def g(node: TreeNode, depth: int = 0):
+        def bind_parent(node: TreeNode, parent: Optional[TreeNode] = None):
+            """Convert a tree to a graph"""
+            node.parent = None
+            if parent:
+                node.parent = parent
+            if node.left:
+                bind_parent(node.left, node)
+            if node.right:
+                bind_parent(node.right, node)
+
+        def dfs(node: TreeNode, depth: int = 0):
             """DFS of graph"""
-            nonlocal ret, k, target
-            nonlocal visited
+            nonlocal ret, visited, k, target
             visited.add(node)
             if depth == k:
                 ret.append(node.val)
             else:
-                for c in node.child:
-                    if c not in visited:
-                        g(c, depth + 1)
+                for c in (node.parent, node.left, node.right):
+                    if c and (c not in visited):
+                        dfs(c, depth + 1)
 
-        f(root)
-        g(target)
+        bind_parent(root)
+        dfs(target)
         return ret
 
 
