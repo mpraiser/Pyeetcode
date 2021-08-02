@@ -19,3 +19,63 @@ $$\lim_{n \rightarrow \alpha} \frac{f(n)}{g(n)} = C$$
 - 意义：对数据的某个特性进行排序后可以方便继续按另一个特性进行二次排序
 
 ### 归并排序
+
+
+## 算法框架
+
+### DFS
+
+- 图的DFS，递归形式
+
+```py
+visited = set()
+
+def dfs(node): 
+    nonlocal visited
+    for (u, v) in node.edges:
+        if v not in visited:
+            visited.add(v)
+            dfs(v)
+```
+
+> 递归形式的DFS实际上隐含了一个栈。
+
+- 图的DFS，迭代形式
+
+```py
+from collections import deque
+
+def dfs(node):
+    # initialization
+    visited = set()
+    stack = deque()
+    stack.append(node)
+    # start dfs
+    while len(stack) > 0:
+        node = stack.pop()
+        for (u, v) in node.edges:
+            if v not in visited:
+                visited.add(v)
+                stack.append(v)
+```
+
+### BFS
+
+- 图的BFS，迭代形式
+
+```py
+from collections import deque
+
+def bfs(node):
+    # initialization
+    visited = set()
+    queue = deque()
+    queue.append(node)
+    # start bfs
+    while len(queue) > 0:
+        node = queue.popleft()
+        for (u, v) in node.edges:
+            if v not in visited:
+                visited.add(v)
+                queue.append(v)
+```
