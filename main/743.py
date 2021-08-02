@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Dict
+from collections import deque
 
 
 class Solution:
@@ -12,7 +13,7 @@ class Solution:
         
         visited = dict()  # time to reach node
 
-        def dfs(u, t=0) -> int:
+        def dfs(u, t=0):
             nonlocal visited
             visited[u] = t
             if u in graph:
@@ -20,8 +21,41 @@ class Solution:
                     t_next = t + graph[u][v]
                     if (v not in visited) or visited[v] > t_next:
                         dfs(v, t_next)
+        
+        def dfs2(node) -> Dict:
+            nonlocal visited
+            queue = deque()
+            queue.append(node)
+            visited[node] = 0
+            while len(queue) > 0:
+                u = queue.pop()
+                if u in graph:
+                    t = visited[u]
+                    for v in graph[u]:
+                        t_next = t + graph[u][v]
+                        if (v not in visited) or visited[v] > t_next:
+                            visited[v] = t_next
+                            queue.append(v)
 
-        dfs(k, 0)
+        def bfs(node) -> Dict:
+            nonlocal visited
+            queue = deque()
+            queue.append(node)
+            visited[node] = 0
+            while len(queue) > 0:
+                u = queue.popleft()
+                if u in graph:
+                    t = visited[u]
+                    for v in graph[u]:
+                        t_next = t + graph[u][v]
+                        if (v not in visited) or visited[v] > t_next:
+                            visited[v] = t_next
+                            queue.append(v)
+
+        # dfs(k, 0)
+        dfs2(k)
+        # bfs(k)
+
         if len(visited) == n:
             return max(visited[node] for node in visited)
         else:
