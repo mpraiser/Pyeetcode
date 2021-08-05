@@ -1,32 +1,23 @@
-from typing import List, Optional
+from typing import List
 
 
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
-        cache = dict()
+        state = dict()
 
-        def f(src) -> bool:
-            nonlocal cache
-            # if cache[src] is True, ret = ret and cache[dst] has no effect.
-            # if cache[src] is None, it means a ring appears, which is not acceptable.
-            # if cache[src] is False, means this node is not safe.
+        def safe(u: int) -> bool:
+            nonlocal state
+            if u in state:
+                return state[u]
 
-            if src in cache:
-                return cache[src] is True  # correct the return type
-                # same as:
-                # return False if dst in cache and (not cache[dst]) else True
-
-            cache[src] = None  # mark this node as it's being processed
-
-            for dst in graph[src]:
-                if not f(dst):
-                    cache[src] = False
+            state[u] = False  # 标志节点被访问
+            for v in graph[u]:
+                if not safe(v):
                     return False
-
-            cache[src] = True
+            state[u] = True
             return True
 
-        result = [i for i in range(len(graph)) if f(i)]
+        result = [i for i in range(len(graph)) if safe(i)]
         return result
 
 
@@ -40,5 +31,5 @@ for case in cases:
     ans = Solution().eventualSafeNodes(case)
     print(ans)
 
-# ans = Solution().eventualSafeNodes(cases[2])
+# ans = Solution().eventualSafeNodes(cases[0])
 # print(ans)
