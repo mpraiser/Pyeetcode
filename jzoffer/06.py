@@ -1,5 +1,8 @@
+from utils import ListNode
+
+
 class Solution:
-    def reversePrint(self, head: ListNode) -> List[int]:
+    def reversePrint(self, head: ListNode) -> list[int]:
         stack = []
         while head:
             stack.append(head.val)

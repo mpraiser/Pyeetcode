@@ -1,3 +1,4 @@
+from utils import ListNode as Node
 """
 # Definition for a Node.
 class Node:
@@ -7,23 +8,23 @@ class Node:
         self.random = random
 """
 
+
 class Solution:
     def copyRandomList(self, head):
+        if not head:
+            return None
+
         cache = {}
-        def copy_node(src):
-            if src is None:
-                return src
-            if src in cache:
-                return cache[src]
-            else: 
-                dst = Node(src.val, None, None)
-                cache[src] = dst
-                if src.next:
-                    dst.next = copy_node(src.next)
-                if src.random:
-                    dst.random = copy_node(src.random)
-                return dst
-        return copy_node(head)
 
+        def copy(raw):
+            if raw in cache:
+                return cache[raw]
+            new = Node(raw.val)
+            cache[raw] = new
+            if raw.next:
+                new.next = copy(raw.next)
+            if raw.random:
+                new.random = copy(raw.random)
+            return new
 
-# 似乎这正是图的DFS？
+        return copy(head)
