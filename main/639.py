@@ -13,7 +13,7 @@ class Solution:
                 else:
                     alpha = 1
 
-                dp[i] += (alpha * dp[i - 1]) % boundary
+                dp[i] += alpha * dp[i - 1]
 
             if i - 2 >= 0:
                 if s[i - 1] == "*" and s[i - 2] == "*":
@@ -35,8 +35,9 @@ class Solution:
                         beta = 1
                     else:
                         beta = 0
-                dp[i] += (beta * dp[i - 2]) % boundary
-                dp[i] %= boundary
+                dp[i] += beta * dp[i - 2]
+
+            dp[i] %= boundary
 
         return dp[len(s)]
 
