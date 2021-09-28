@@ -6,30 +6,30 @@
 #         self.right = right
 from utils.treenode import TreeNode
 
+from collections import defaultdict
+
 
 class Solution:
     def pathSum(self, root: TreeNode, targetSum: int) -> int:
         if not root:
             return 0
-        path = [0]
+        sums = defaultdict(int)  # prefix sum
+        sums[0] = 1
         result = 0
 
-        def dfs(node: TreeNode):
+        def dfs(node: TreeNode, s: int):
             """returns list of all possible path sums"""
-            nonlocal result
-            for i in range(len(path)):
-                if path[-1] - path[i] == targetSum - node.val:
-                    result += 1
+            nonlocal result, sums
+            s += node.val
+            result += sums[s - targetSum]
+            sums[s] += 1
             if node.left:
-                path.append(path[-1] + node.val)
-                dfs(node.left)
-                path.pop()
+                dfs(node.left, s)
             if node.right:
-                path.append(path[-1] + node.val)
-                dfs(node.right)
-                path.pop()
+                dfs(node.right, s)
+            sums[s] -= 1
 
-        dfs(root)
+        dfs(root, 0)
         return result
 
 
